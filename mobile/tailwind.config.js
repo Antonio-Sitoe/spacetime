@@ -11,6 +11,9 @@ module.exports = {
         semibold: "Inter_600SemiBold",
         bold: "Inter_700Bold",
         extrabold: "Inter_800ExtraBold",
+        title:"Roboto_700Bold",
+        body:"Roboto_400Regular",
+        alt:"BaiJamjuree_700Bold"
       },
     },
   },

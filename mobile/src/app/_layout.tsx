@@ -1,22 +1,14 @@
 import React from "react";
 import "../lib/dayjs";
-import { SplashScreen, Slot } from "expo-router";
 
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-} from "@expo-google-fonts/inter";
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
+import { SplashScreen, Slot } from "expo-router";
+import { useFonts, Roboto_400Regular, Roboto_700Bold } from "@expo-google-fonts/roboto";
+import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 
 export default function RootLayout() {
   const [fontsLoading] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
+    BaiJamjuree_700Bold, Roboto_400Regular, Roboto_700Bold
   });
   if (!fontsLoading) {
     return <SplashScreen />;
