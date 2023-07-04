@@ -3,9 +3,11 @@ import fastify = require('fastify');
 import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
 import { memoriesRoutes } from './routes/memories';
+import { authRoutes } from './routes/authRoutes';
 
 const app = fastify();
 app.register(memoriesRoutes);
+app.register(authRoutes);
 app.register(cors, {
   origin: true, // todas url de frontend podem acessar,
 });

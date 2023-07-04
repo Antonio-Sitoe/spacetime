@@ -10,6 +10,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     const { code } = bodyShema.parse(request.body);
+    console.log('code', code);
 
     const accessTokenResponse = await axios.post(
       'https://github.com/login/oauth/access_token',

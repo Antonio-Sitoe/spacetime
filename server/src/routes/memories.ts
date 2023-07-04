@@ -3,8 +3,14 @@ import { prisma } from '../lib/prisma';
 import z from 'zod';
 
 export async function memoriesRoutes(app: FastifyInstance) {
+  app.addHook('preHandler', async (request) => {
+    await request.jwtVerify();
+  });
   app.get('/memories', async (req, res) => {
     const memories = await prisma.memory.findMany({
+      where: {
+        userId: req.user.sub,
+      },
       orderBy: {
         createdAt: 'asc',
       },
@@ -30,6 +36,10 @@ export async function memoriesRoutes(app: FastifyInstance) {
       },
     });
 
+    if (!memory.isPublic && memory.userId !== req.user.sub) {
+      return res.status(401).send('Nao esta autorizado ');
+    }
+
     return memory;
   });
 
@@ -45,7 +55,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
         coverUrl,
         isPublic,
         content,
-        userId: '9940eacc-a52c-4e69-b614-416b3668d333',
+        userId: req.user.sub,
       },
     });
     console.log('memory', memory);
@@ -63,7 +73,17 @@ export async function memoriesRoutes(app: FastifyInstance) {
     const { id } = paramsShema.parse(req.params);
     const { content, isPublic, coverUrl } = bodyShema.parse(req.body);
 
-    const memory = await prisma.memory.update({
+    let memory = await prisma.memory.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (memory.userId !== req.user.sub) {
+      return res.status(401).send('Nao esta autorizado ');
+    }
+
+    memory = await prisma.memory.update({
       where: {
         id,
       },
@@ -84,7 +104,17 @@ export async function memoriesRoutes(app: FastifyInstance) {
 
     const { id } = paramsShema.parse(req.params);
 
-    const memory = await prisma.memory.delete({
+    const memory = await prisma.memory.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (memory.userId !== req.user.sub) {
+      return res.status(401).send('Nao esta autorizado ');
+    }
+
+    await prisma.memory.delete({
       where: {
         id,
       },
