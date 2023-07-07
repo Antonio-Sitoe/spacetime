@@ -25,15 +25,16 @@ export default function RootLayout() {
     Roboto_700Bold,
   });
 
-  if (!fontsLoading) {
-    return <SplashScreen />;
-  }
-
   useEffect(() => {
     SecureStore.getItemAsync("token").then((token) =>
       SetisUserAuthenticated(!!token)
     );
   }, []);
+
+  if (!fontsLoading) {
+    return <SplashScreen />;
+  }
+
   return (
     <>
       <ImageBackground
