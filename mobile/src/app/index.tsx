@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import BlurBg from "../assets/bg-blur.png";
-import Stripes from "../assets/stripes.svg";
-import { styled } from "nativewind";
-import { View, Text, ImageBackground } from "react-native";
-import NLWLogo from "../assets/nlw-spacetime-logo.svg";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+
 import { api } from "../lib/axios";
-import * as SecureStore from "expo-secure-store";
+import { View, Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import * as SecureStore from "expo-secure-store";
+import NLWLogo from "../assets/nlw-spacetime-logo.svg";
 
 const discovery = {
   authorizationEndpoint: "https://github.com/login/oauth/authorize",
@@ -16,8 +14,6 @@ const discovery = {
   revocationEndpoint:
     "https://github.com/settings/connections/applications/903f5252f0677103d4ec",
 };
-
-const StyledStripes = styled(Stripes);
 
 export default function Home() {
   const router = useRouter();
@@ -47,7 +43,7 @@ export default function Home() {
           const { token } = response.data;
           console.log("token", token);
           await SecureStore.setItemAsync("token", token);
-          router.push("/memories")
+          router.push("/memories");
         })
         .catch((e) => {
           console.log("e", e);
@@ -56,13 +52,7 @@ export default function Home() {
   }, [response]);
 
   return (
-    <ImageBackground
-      source={BlurBg}
-      imageStyle={{ position: "absolute", left: "-50%" }}
-      className="flex-1 items-center justify-center  bg-gray-900 px-8 py-10"
-    >
-      <StyledStripes className="absolute left-2" />
-
+    <>
       <View className="flex-1 items-center justify-center gap-6">
         <NLWLogo />
         <View className="space-y-2">
@@ -87,6 +77,6 @@ export default function Home() {
       <Text className="text-center font-body text-sm leading-relaxed text-gray-200">
         Feito com amor Antonio Sitoe
       </Text>
-    </ImageBackground>
+    </>
   );
 }
