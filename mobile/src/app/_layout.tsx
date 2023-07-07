@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../lib/dayjs";
 
 import BlurBg from "../assets/bg-blur.png";
 import Stripes from "../assets/stripes.svg";
 import { styled } from "nativewind";
+import * as SecureStore from "expo-secure-store";
 
 import { ImageBackground, StatusBar } from "react-native";
-import { SplashScreen, Slot } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import {
   useFonts,
   Roboto_400Regular,
@@ -17,6 +18,7 @@ import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 const StyledStripes = styled(Stripes);
 
 export default function RootLayout() {
+  const [isUserAuthenticated, SetisUserAuthenticated] = useState(false);
   const [fontsLoading] = useFonts({
     BaiJamjuree_700Bold,
     Roboto_400Regular,
@@ -26,6 +28,12 @@ export default function RootLayout() {
   if (!fontsLoading) {
     return <SplashScreen />;
   }
+
+  useEffect(() => {
+    SecureStore.getItemAsync("token").then((token) =>
+      SetisUserAuthenticated(!!token)
+    );
+  }, []);
   return (
     <>
       <ImageBackground
@@ -35,7 +43,16 @@ export default function RootLayout() {
       >
         <StyledStripes className="absolute left-2" />
         <StatusBar barStyle="light-content" />
-        <Slot />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" },
+          }}
+        >
+          <Stack.Screen name="index" redirect={isUserAuthenticated} />
+          <Stack.Screen name="new" />
+          <Stack.Screen name="memories" />
+        </Stack>
       </ImageBackground>
     </>
   );
