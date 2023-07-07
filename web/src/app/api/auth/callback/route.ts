@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
     code,
   });
   const { token } = data;
-
-  const nextRedirect = new URL("/", request.url);
+  const redirectTo = request.cookies.get("redirectTo")?.value;
+  const nextRedirect = redirectTo ?? new URL("/", request.url);
 
   const cookieExpire = 60 * 60 * 24 * 30;
 
