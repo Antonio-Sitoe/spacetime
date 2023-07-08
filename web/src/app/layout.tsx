@@ -31,14 +31,14 @@ export default function RootLayout({
         className={`${roboto.variable} ${baiJamJuree.variable} font-sans text-gray-100 bg-gray-900`}
       >
         <main className="grid grid-cols-2 min-h-screen">
-          <div className="relative flex flex-col items-start justify-between px-28 py-16 overflow-hidden bg-[url(../assets/bg-stars.svg)]">
+          <div className="flex flex-col relative  items-start justify-between px-28 py-16 overflow-hidden bg-[url(../assets/bg-stars.svg)]">
             <div className="absolute right-0 top-1/2 h-[288px] w-[526px] -translate-y-1/2 translate-x-1/2 bg-purple-700 rounded-full blur-full" />
             <div className="absolute right-0 top-0 bottom-0 w-2 bg-stripes" />
             {isAuthenticated ? <Profile /> : <SignIn />}
             <Hero />
             <Copyright />
           </div>
-          <div className="flex flex-col p-16 bg-[url(../assets/bg-stars.svg)] bg-cover">
+          <div className="flex flex-col max-h-screen overflow-y-scroll p-16 bg-[url(../assets/bg-stars.svg)] bg-cover">
             {children}
           </div>
         </main>
