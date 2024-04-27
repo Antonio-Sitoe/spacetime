@@ -1,16 +1,20 @@
-import { cookies } from "next/headers";
-import decode from "jwt-decode";
-interface Users {
-  sub: string;
-  name: string;
-  avatarUrl: string;
+import { cookies } from 'next/headers'
+import decode from 'jwt-decode'
+
+interface User {
+  sub: string
+  name: string
+  avatarUrl: string
 }
-export function getUsers(): Users {
-  const token = cookies().get("token")?.value;
+
+export function getUser(): User {
+  const token = cookies().get('token')?.value
 
   if (!token) {
-    throw new Error("nao autenticado");
+    throw new Error('Unauthenticated.')
   }
-  const user: Users = decode(token);
-  return user;
+
+  const user: User = decode(token)
+
+  return user
 }

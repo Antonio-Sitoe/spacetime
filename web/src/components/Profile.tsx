@@ -1,9 +1,8 @@
-import { getUsers } from "@/lib/auth";
-import Image from "next/image";
-import Link from "next/link";
+import { getUser } from '@/lib/auth'
+import Image from 'next/image'
 
 export function Profile() {
-  const { name, avatarUrl } = getUsers();
+  const { name, avatarUrl } = getUser()
 
   return (
     <div className="flex items-center gap-3 text-left">
@@ -25,5 +24,5 @@ export function Profile() {
         </a>
       </p>
     </div>
-  );
+  )
 }

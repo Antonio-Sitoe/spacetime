@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const nextRedirect = new URL("/", request.url);
+  const redirectURL = new URL('/', request.url)
 
-  return NextResponse.redirect(nextRedirect, {
+  return NextResponse.redirect(redirectURL, {
     headers: {
-      "Set-Cookie": `token=; path=/; max-age=0`, //
+      'Set-Cookie': `token=; Path=/; max-age=0;`,
     },
-  });
+  })
 }

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { NewMemoryForm } from "@/components/NewMemoryForm";
-import { ChevronLeft } from "lucide-react";
+import { NewMemoryForm } from '@/components/NewMemoryForm'
+import { ChevronLeft } from 'lucide-react'
+import Link from 'next/link'
 
 export default function NewMemory() {
   return (
@@ -10,9 +10,10 @@ export default function NewMemory() {
         className="flex items-center gap-1 text-sm text-gray-200 hover:text-gray-100"
       >
         <ChevronLeft className="h-4 w-4" />
-        Voltar a timeline
+        voltar à timeline
       </Link>
+
       <NewMemoryForm />
     </div>
-  );
+  )
 }

@@ -1,94 +1,93 @@
-"use client";
+'use client'
 
-import { Camera } from "lucide-react";
-import { MediaPicker } from "./MediaPicker";
-import { FormEvent } from "react";
-import { api } from "@/lib/api";
-import { parseCookies } from "nookies";
-import { useRouter } from "next/navigation";
+import { Camera } from 'lucide-react'
+import { MediaPicker } from './MediaPicker'
+import { FormEvent } from 'react'
+import { api } from '@/lib/api'
+import Cookie from 'js-cookie'
+import { useRouter } from 'next/navigation'
 
 export function NewMemoryForm() {
-  const { token } = parseCookies();
-  const router = useRouter();
+  const router = useRouter()
 
-  async function handleSubmitMemories(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleCreateMemory(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(event.currentTarget)
 
-    const fileToUploud = formData.get("coverUrl");
-    let coverUrl;
+    const fileToUpload = formData.get('coverUrl')
 
-    if (fileToUploud) {
-      const uploadFormData = new FormData();
+    let coverUrl = ''
 
-      uploadFormData.set("file", fileToUploud);
-      const { data } = await api.post("/upload", uploadFormData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(data);
-      coverUrl = data.fileUrl;
+    if (fileToUpload) {
+      const uploadFormData = new FormData()
+      uploadFormData.set('file', fileToUpload)
+
+      const uploadResponse = await api.post('/upload', uploadFormData)
+
+      coverUrl = uploadResponse.data.fileUrl
     }
 
-    // await api.post(
-    //   "/memories",
-    //   {
-    //     coverUrl,
-    //     current: formData.get("content"),
-    //     isPublic: formData.get("isPublic"),
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
+    const token = Cookie.get('token')
 
-    // router.push("/");
+    await api.post(
+      '/memories',
+      {
+        coverUrl,
+        content: formData.get('content'),
+        isPublic: formData.get('isPublic'),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+
+    router.push('/')
   }
+
   return (
-    <form
-      onSubmit={handleSubmitMemories}
-      className="flex flex-col gap-2 flex-1"
-    >
+    <form onSubmit={handleCreateMemory} className="flex flex-1 flex-col gap-2">
       <div className="flex items-center gap-4">
         <label
           htmlFor="media"
           className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
         >
-          Anexar Media
-          <Camera className="w-4 h-4" />
+          <Camera className="h-4 w-4" />
+          Anexar mídia
         </label>
+
         <label
           htmlFor="isPublic"
-          className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
+          className="flex items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
         >
           <input
-            className="h-4 w-4 border-gray-400 bg-gray-700 rounded"
             type="checkbox"
             name="isPublic"
             id="isPublic"
             value="true"
+            className="h-4 w-4 rounded border-gray-400 bg-gray-700 text-purple-500"
           />
-          Tornar memoria publicas
+          Tornar memória pública
         </label>
       </div>
+
       <MediaPicker />
 
       <textarea
-        spellCheck={false}
-        className="focus:ring-0 w-full text-gray-100 flex-1 resize-none leading-relaxed rounded border-0 bg-transparent p-0 text-lg placeholder:text-gray-400"
         name="content"
-        placeholder=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores quam modi repellendus in beatae eum reprehenderit.."
+        spellCheck={false}
+        className="w-full flex-1 resize-none rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0"
+        placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre."
       />
+
       <button
-        className="inline-block self-end rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black hover:bg-green-600"
         type="submit"
+        className="inline-block self-end rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black hover:bg-green-600"
       >
         Salvar
       </button>
     </form>
-  );
+  )
 }

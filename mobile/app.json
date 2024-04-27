@@ -1,37 +1,31 @@
 {
   "expo": {
-    "scheme": "acme",
-    "web": {
-      "bundler": "metro"
-    },
     "name": "mobile",
     "slug": "mobile",
+    "scheme": "nlwspacetime",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#09090A"
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#09090A"
-      },
-      "package": "com.antoniositoe533.mobile"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "7ab00fd2-b96c-4cbf-8b83-1d31c7d6c49b"
+        "backgroundColor": "#ffffff"
       }
     },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/7ab00fd2-b96c-4cbf-8b83-1d31c7d6c49b"
-    },
-    "ios": {}
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }
